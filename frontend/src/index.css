@@ -26,10 +26,39 @@ body {
     width: 30%;
 }
 
+.ml-two{
+    margin-left: 0.2rem;
+}
+
 .left-container{
     width:30%;
 }
 
 .center{
     text-align: center;
+}
+
+.price{
+    font-weight: 700;
+}
+
+.rating{
+    color: #f0c040;
+}
+
+.rating span:last-child{
+    color: #404040;
+}
+
+.success{
+    color:#20a020
+}
+
+.danger{
+    color: #a02020;
+}
+
+.img-small{
+    max-width: 5rem;
+    width: 100%;
 }
