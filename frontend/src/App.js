@@ -1,13 +1,21 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Link, Route } from 'react-router-dom';
+import { signout } from './actions/userActions';
 import CartScreen from './screens/CartScreen';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
+import SignInSreen from './screens/SignInScreen';
 
 function App() {
 
 const cart = useSelector(state => state.cart);
 const { cartItems } = cart;
+const userSignin = useSelector(state => state.userSignin);
+const { userInfo } = userSignin;
+const dispatch = useDispatch();
+const {signoutHandler} = () => {
+      dispatch(signout());
+}
 
   return (
     <BrowserRouter>
@@ -32,12 +40,26 @@ const { cartItems } = cart;
                 <span className="badge badge-danger ml-two rounded-circle">{cartItems.length}</span>
               )}
             </Link>
-            <Link className="navbar-brand" to="/signin">Sign In</Link>
+            {
+              userInfo ? (
+                <div className="dropdown">
+                <Link className="navbar-brand" to="#">
+                  {userInfo.name}<i className="fa fa-caret-down"></i>{' '}
+                </Link>
+                <ul className="dropdown-content">
+                  <Link to="#signout" className="navbar-brand" onClick={signoutHandler}>Sign Out</Link>
+                </ul>
+                </div>
+              ) : (
+                <Link className="navbar-brand" to="/signin">Sign In</Link>
+              )
+            }
           </div>
         </nav>
         <main>
           <Route path="/cart/:id?" component={CartScreen}></Route>
           <Route path="/product/:id" component={ProductScreen}></Route>
+          <Route path="/signin" component={SignInSreen}></Route>
           <Route path="/" component={HomeScreen} exact></Route>
         </main>
       </div>
