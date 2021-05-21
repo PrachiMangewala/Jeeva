@@ -6,9 +6,11 @@ import PrivateRoute from './components/PrivateRoute';
 import CartScreen from './screens/CartScreen';
 import HomeScreen from './screens/HomeScreen';
 import OrderHistoryScreen from './screens/orderHistoryScreen';
+import OrderListScreen from './screens/OrderListScreen';
 import OrderScreen from './screens/OrderScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import ProductEditScreen from './screens/ProductEditScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductScreen from './screens/ProductScreen';
 import ProfileScreen from './screens/ProfileScreen';
@@ -100,7 +102,7 @@ const signoutHandler = () => {
         </nav>
         <main>
           <Route path="/cart/:id?" component={CartScreen}></Route>
-          <Route path="/product/:id" component={ProductScreen}></Route>
+          <Route path="/product/:id" component={ProductScreen} exact></Route>
           <Route path="/signin" component={SignInScreen}></Route>
           <Route path="/register" component={RegisterScreen}></Route>
           <Route path="/shipping" component={ShippingAddressScreen}></Route>
@@ -112,16 +114,10 @@ const signoutHandler = () => {
           <Route path="/" component={HomeScreen} exact></Route>
           <AdminRoute path="/userlist" component={UserListScreen}></AdminRoute>
           <AdminRoute path="/user/:id/edit" component={UserEditScreen}></AdminRoute>
-          <AdminRoute
-            path="/productlist"
-            component={ProductListScreen}
-            exact
-          ></AdminRoute>
-          <AdminRoute
-            path="/productlist/pageNumber/:pageNumber"
-            component={ProductListScreen}
-            exact
-          ></AdminRoute>
+          <AdminRoute path="/productlist" component={ProductListScreen} exact ></AdminRoute>
+          <AdminRoute path="/productlist/pageNumber/:pageNumber" component={ProductListScreen} exact ></AdminRoute>
+          <AdminRoute path="/product/:id/edit" component = {ProductEditScreen} exact></AdminRoute>
+          <AdminRoute path="/orderlist" component = {OrderListScreen} exact></AdminRoute>
         </main>
       </div>
     </BrowserRouter>

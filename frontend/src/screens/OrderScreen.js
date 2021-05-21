@@ -1,64 +1,77 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { detailsOrder } from "../actions/orderActions";
+import { deliverOrder, detailsOrder } from "../actions/orderActions";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
+import { ORDER_DELIVER_RESET } from "../constants/orderConstants";
 
 export default function OrderScreen(props) {
     const orderId = props.match.params.id;
     const orderDetails = useSelector((state) => state.orderDetails);
     const { order, loading, error } = orderDetails;
     const dispatch = useDispatch();
+    const userSignin = useSelector((state) => state.userSignin);
+    const { userInfo } = userSignin;
+
+    const orderDeliver = useSelector((state) => state.orderDeliver);
+    const {
+        loading: loadingDeliver,
+        error: errorDeliver,
+        success: successDeliver,
+    } = orderDeliver;
 
     useEffect(() => {
-        dispatch(detailsOrder(orderId));
-    }, [dispatch, orderId ]);
-
-    function isDate(val) {
-        // Cross realm comptatible
-        return Object.prototype.toString.call(val) === '[object Date]'
-      }
-      
-      function isObj(val) {
-        return typeof val === 'object'
-      }
-      
-       function stringifyValue(val) {
-        if (isObj(val) && !isDate(val)) {
-          return JSON.stringify(val)
-        } else {
-          return val
+        if(!order || successDeliver || (order && order._id !== orderId)){
+            dispatch({ type: ORDER_DELIVER_RESET })
+            dispatch(detailsOrder(orderId));
         }
-      }
+    }, [dispatch, orderId, successDeliver, order ]);
+
+    // function isDate(val) {
+    //     // Cross realm comptatible
+    //     return Object.prototype.toString.call(val) === '[object Date]'
+    //   }
       
-      function buildForm({ action, params }) {
-        const form = document.createElement('form')
-        form.setAttribute('method', 'post')
-        form.setAttribute('action', action)
+    //   function isObj(val) {
+    //     return typeof val === 'object'
+    //   }
       
-        Object.keys(params).forEach(key => {
-          const input = document.createElement('input')
-          input.setAttribute('type', 'hidden')
-          input.setAttribute('name', key)
-          input.setAttribute('value', stringifyValue(params[key]))
-          form.appendChild(input)
-        })
+    //    function stringifyValue(val) {
+    //     if (isObj(val) && !isDate(val)) {
+    //       return JSON.stringify(val)
+    //     } else {
+    //       return val
+    //     }
+    //   }
       
-        return form
-      }
+    //   function buildForm({ action, params }) {
+    //     const form = document.createElement('form')
+    //     form.setAttribute('method', 'post')
+    //     form.setAttribute('action', action)
       
-       function post(details) {
-        const form = buildForm(details)
-        document.body.appendChild(form)
-        form.submit()
-        form.remove()
-      }
+    //     Object.keys(params).forEach(key => {
+    //       const input = document.createElement('input')
+    //       input.setAttribute('type', 'hidden')
+    //       input.setAttribute('name', key)
+    //       input.setAttribute('value', stringifyValue(params[key]))
+    //       form.appendChild(input)
+    //     })
+      
+    //     return form
+    //   }
+      
+    //    function post(details) {
+    //     const form = buildForm(details)
+    //     document.body.appendChild(form)
+    //     form.submit()
+    //     form.remove()
+    //   }
 
     const getData=(data)=>
     {
 
-        return fetch(`http://localhost:5000/api/payment`,{
+        return fetch(`http://localhost:5000/api/config/paytm/payment`,{
             method:"POST",
             headers:{
                 Accept:"application/json",
@@ -69,14 +82,20 @@ export default function OrderScreen(props) {
     }
 
     const makePayment=()=> {
-        getData(order.totalPrice, order.email).then(response=>{
-            var information={
-                action:"",
-                params:response
-            }
-          post(information)
-        });
+        getData({totalPrice: order.totalPrice, email: order.user.email, id: order._id}).then(response=>{
+        //     var information={
+        //         action:"",
+        //         params:response
+        //     }
+        //   post(information)
+        // }
+        console.log(response);}
+        );
     }
+
+    const deliverHandler = () => {
+        dispatch(deliverOrder(order._id));
+      };
 
     return loading ? (<LoadingBox></LoadingBox>):
     error?(<MessageBox variant="danger">{error}</MessageBox>)
@@ -178,6 +197,17 @@ export default function OrderScreen(props) {
                                     <button className="btn btn-lg btn-primary my-2" onClick={makePayment}>Pay Now Using Paytm</button>
                                 )
                             }
+                            {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                                <li>
+                                {loadingDeliver && <LoadingBox></LoadingBox>}
+                                {errorDeliver && (
+                                  <MessageBox variant="danger">{errorDeliver}</MessageBox>
+                                )}
+                                <button type="button" className="btn btn-lg btn-primary my-2" onClick={deliverHandler}>
+                                    Deliver Order
+                                </button>
+                                </li>
+                            )}
                         </ul>
                     </div>
                 </div>

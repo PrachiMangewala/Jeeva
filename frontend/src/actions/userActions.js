@@ -62,7 +62,7 @@ export const updateUserProfile = (user) => async(dispatch, getState) => {
     dispatch({ type: USER_UPDATE_PROFILE_REQUEST, payload: user });
     const { userSignin: {userInfo}} = getState();
     try{
-        const {data} = await Axios.get('/api/users/profile', user, {
+        const {data} = await Axios.put('/api/users/profile', user, {
             headers: { Authorization: `Bearer ${userInfo.token}`},
         });
         dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
@@ -81,7 +81,7 @@ export const updateUser = (user) => async(dispatch, getState) => {
     dispatch({ type: USER_UPDATE_REQUEST, payload: user });
     const { userSignin: {userInfo}} = getState();
     try{
-        const {data} = await Axios.get(`/api/users/${user._id}`, user, {
+        const {data} = await Axios.put(`/api/users/${user._id}`, user, {
             headers: { Authorization: `Bearer ${userInfo.token}`},
         });
         dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
@@ -90,7 +90,7 @@ export const updateUser = (user) => async(dispatch, getState) => {
             error.response && error.response.data.message
                 ? error.response.data.message
                 : error.message; 
-        dispatch({ type: USER_UPDATE_FAIL, payload: message });
+        dispatch({ type: USER_UPDATE_FAIL, error: message });
     }
 };
 

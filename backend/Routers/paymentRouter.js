@@ -1,9 +1,15 @@
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 import express from 'express';
 import dotenv from 'dotenv';
 import formidable from 'formidable';
 import https from 'https';
+// import PaytmChecksum from "../PaytmChecksum";
 const paymentRouter = express.Router();
-import {v4 as uuidv4} from 'uuid';
+
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 dotenv.config();
 
@@ -11,7 +17,7 @@ paymentRouter.post('/callback', (req, res) => {
     const form = new formidable.Incomingform();
 
     form.parse(req,(err,fields,file)=> {
-        var PaytmChecksum = require("./PaytmChecksum");
+        var PaytmChecksum = require("../PaytmChecksum");
 
         paytmChecksum = fields.CHECKSUMHASH;
         delete fields.CHECKSUMHASH;
@@ -87,8 +93,11 @@ paymentRouter.post('/callback', (req, res) => {
 })
 
 paymentRouter.post('/payment', (req, res) => {
+    var PaytmChecksum = require("../PaytmChecksum");
 
-    const {totalPrice, email} = req.body();
+    const totalPrice = req.body.totalPrice;
+    const email = req.body.email;
+    const id = req.body.id;
 
     const totalAmount = JSON.stringify(totalPrice);
     /* import checksum generation utility */
@@ -99,10 +108,10 @@ paymentRouter.post('/payment', (req, res) => {
     params['WEBSITE'] = process.env.PAYTM_WEBSITE,
     params['CHANNEL_ID'] = process.env.PAYTM_CHANNEL_ID,
     params['INDUSTRY_TYPE_ID'] = process.env.PAYTM_INDUSTRY_TYPE_ID,
-    params['ORDER_ID'] = uuidv4(),
+    params['ORDER_ID'] = id,
     params['CUST_ID'] = process.env.PAYTM_CUST_ID,
     params['TXN_AMOUNT'] = totalAmount,
-    params['CALLBACK_URL'] = 'http://localhost:5000/api/callback',
+    params['CALLBACK_URL'] = 'http://localhost:5000/api/config/paytm/callback',
     params['EMAIL'] =email,
     params['MOBILE_NO'] = '9876543210'
 

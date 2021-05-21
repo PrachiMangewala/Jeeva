@@ -27,7 +27,7 @@ export default function UserEditScreen(props){
         dispatch({ type: USER_UPDATE_RESET });
         props.history.push('/userlist');
         }
-        if (!user) {
+        if (!user || user._id !== userId || successUpdate) {
         dispatch(detailsUser(userId));
         } else {
         setName(user.name);
