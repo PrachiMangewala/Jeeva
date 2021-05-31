@@ -67,4 +67,21 @@ orderRouter.put('/:id/deliver', isAuth, isAdmin, expressAsyncHandler(async(req, 
     }
 ));
 
+orderRouter.get(
+    '/summary',
+    isAuth,
+    isAdmin,
+    expressAsyncHandler(async (req, res) => {
+      const orders = await Order.aggregate([
+        {
+          $group: {
+            _id: null,
+            numOrders: { $sum: 1 },
+            totalSales: { $sum: '$totalPrice' },
+          },
+        },
+    ]);
+    res.send({ orders });
+}));
+
 export default orderRouter;

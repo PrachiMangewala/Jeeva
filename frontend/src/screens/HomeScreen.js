@@ -32,7 +32,7 @@ export default function HomeScreen() {
                             </div>
                         </div>
 
-                        <div className="container d-flex flex-row my-5">
+                        {/* <div className="container d-flex flex-row my-5">
                             <div className=" left-container container">
                                 <h1>Products We Have</h1>
                                 <a className="nav-link" href="/">Toothbrush</a>
@@ -51,7 +51,7 @@ export default function HomeScreen() {
             Bamboo products such as arrows, paper, building materials, and books existed as far back as about seven thousand years. Even in the early years, bamboo had been used in many ways, not to mention the traditional use of bamboo in the daily life of the early people especially in Asia.
           </p>
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="container my-3">
                             <div className="my-5 center"><h1>Featured Products</h1></div>
