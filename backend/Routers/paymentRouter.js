@@ -17,7 +17,7 @@ paymentRouter.post('/callback', (req, res) => {
     const form = new formidable.Incomingform();
 
     form.parse(req,(err,fields,file)=> {
-        var PaytmChecksum = require("../PaytmChecksum");
+        var PaytmChecksum = require("../PaytmChecksum.cjs");
 
         paytmChecksum = fields.CHECKSUMHASH;
         delete fields.CHECKSUMHASH;
@@ -93,7 +93,7 @@ paymentRouter.post('/callback', (req, res) => {
 })
 
 paymentRouter.post('/payment', (req, res) => {
-    var PaytmChecksum = require("../PaytmChecksum");
+    var PaytmChecksum = require("../PaytmChecksum.cjs");
 
     const totalPrice = req.body.totalPrice;
     const email = req.body.email;

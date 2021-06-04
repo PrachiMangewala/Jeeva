@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost/jeeva', {
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -27,6 +27,9 @@ app.use('/api/products', productRouter);
 app.use('/api/orders', orderRouter);
 app.use('/api/uploads', uploadRouter);
 app.use('/api/config/paytm', paymentRouter);
+// app.get('/', (req, res) => {
+//     res.send('Server is ready');
+// });
 
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
