@@ -3,6 +3,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1{
+  text-transform: uppercase;
+}
+
 #root{
   height: 100%;
 }
@@ -24,6 +28,16 @@ body {
 
 .logo{
     width: 30%;
+}
+
+.logo-small{
+  width: 10%;
+}
+
+.p-text{
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 .ml-two{
@@ -71,6 +85,18 @@ body {
 .img-lg{
     max-width: 35rem;
     width: 100%;
+}
+
+.footer{
+  /* min-height: 100vh; */
+  position: fixed;
+  left:0;
+  bottom:0;
+  width:100%;
+  background-color: #20a020;
+  text-align: center;
+  color: white;
+  z-index: 1;
 }
 
 /* form*/
@@ -189,6 +215,11 @@ body {
     color: white;
     text-decoration: none;
     padding: 0.5rem 0.5rem;
+  }
+
+  .navLink{
+    color: rgb(15, 9, 9);
+    padding:0px 0px;
   }
   
   .nav-links:hover {

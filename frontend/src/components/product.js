@@ -10,7 +10,7 @@ const {product} = props;
         </div>
         <div className="card-body">
             <div className="card-title">
-                <Link to={`/product/${product._id}`} className="nav-link">{product.name}</Link>
+                <Link to={`/product/${product._id}`} className="navLink">{product.name}</Link>
             </div>
             <Rating rating = {product.rating} numReviews = {product.numReviews}></Rating>
             <div className="mx-1 my-1 price">₹{product.price}</div>

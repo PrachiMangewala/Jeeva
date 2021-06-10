@@ -20,6 +20,7 @@ import ShippingAddressScreen from './screens/ShippingAddressScreen';
 import SignInScreen from './screens/SignInScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import UserListScreen from './screens/UserListScreen';
+import ProductsDisplayScreen from './screens/ProductsDisplayScreen';
 import React, { useState } from 'react';
 
 
@@ -44,7 +45,7 @@ const signoutHandler = () => {
     <div>
     <nav className='navigation-bar'>
         <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
-          JEEVA
+        JEEVA
         </Link>
         <div className='menu-icon' onClick={handleClick}>
           <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
@@ -57,7 +58,7 @@ const signoutHandler = () => {
           </li>
           <li className='nav-item'>
             <Link
-              to='/products'
+              to='/productsdisplay'
               className='nav-links'
               onClick={closeMobileMenu}
             >
@@ -117,9 +118,9 @@ const signoutHandler = () => {
                   Admin<i className="fa fa-caret-down mx-1"></i>
                 </Link>
                 <ul className="dropdown-content">
-                  <li>
+                  {/* <li>
                     <Link to="/dashboard" className="nav-links">Dashboard</Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link to="/productlist" className="nav-links">Products</Link>
                   </li>
@@ -154,7 +155,7 @@ const signoutHandler = () => {
                 </li>
               </div>
           ):(
-            <li className='nav-item'>
+            <li className='nav-item dropdown-display'>
               <Link className="nav-links" to="/signin" onClick={closeMobileMenu}>Sign In</Link>
             </li>
           )}
@@ -162,9 +163,9 @@ const signoutHandler = () => {
           <li>
           {click && userInfo && userInfo.isAdmin && (
               <div className="dropdown-display">
-                  <li>
+                  {/* <li>
                     <Link to="/dashboard" className="nav-links" onClick={closeMobileMenu}>Admin-Dashboard</Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link to="/productlist" className="nav-links" onClick={closeMobileMenu}>Admin-Products</Link>
                   </li>
@@ -179,6 +180,9 @@ const signoutHandler = () => {
           </li>
         </ul>
       </nav>
+      <footer className="footer">
+        Copyright &copy; 2021 Jeeva. All Rights Reserved.
+      </footer>
         <main>
           <Route path="/cart/:id?" component={CartScreen}></Route>
           <Route path="/product/:id" component={ProductScreen} exact></Route>
@@ -191,6 +195,7 @@ const signoutHandler = () => {
           <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
           <PrivateRoute path="/profile" component={ProfileScreen}></PrivateRoute>
           <Route path="/" component={HomeScreen} exact></Route>
+          <Route path="/productsdisplay" component={ProductsDisplayScreen}></Route>
           <AdminRoute path="/userlist" component={UserListScreen}></AdminRoute>
           <AdminRoute path="/user/:id/edit" component={UserEditScreen}></AdminRoute>
           <AdminRoute path="/productlist" component={ProductListScreen} exact ></AdminRoute>

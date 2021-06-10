@@ -28,7 +28,7 @@ export default function HomeScreen() {
                         }}>
                             <div className="content">
                                 <img src="/images/jeeva.png" alt="" className="logo" />
-                                <p>we thrive to sustain and to provide a way of life</p>
+                                <p className="p-text">we thrive to sustain and to provide a way of life</p>
                             </div>
                         </div>
 
@@ -53,7 +53,7 @@ export default function HomeScreen() {
                             </div>
                         </div> */}
 
-                        <div className="container my-3">
+                        <div className="container my-3 pb-5">
                             <div className="my-5 center"><h1>Featured Products</h1></div>
                                     {products.length === 0 && <MessageBox>No Product Found</MessageBox>}
                                     <div className="d-flex flex-md-row flex-column justify-content-between align-items-center">
